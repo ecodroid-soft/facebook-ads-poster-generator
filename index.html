@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ads Campaign Poster Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'campaign-yellow': '#FFE100',
+                        'campaign-blue': '#000080',
+                        'campaign-red': '#FF0000',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .feature-button {
+            background: linear-gradient(to right, #000080, #000066);
+            transition: all 0.3s ease;
+        }
+        .feature-button:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 15px rgba(0,0,128,0.3);
+        }
+    </style>
+</head>
+<body class="font-poppins bg-gray-100 min-h-screen">
+    <!-- Form Section -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6">Customize Your Poster</h2>
+            <form id="posterForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Basic Info -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Badge Text</label>
+                        <input type="text" id="badgeText" value="Big Sales" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Main Title</label>
+                        <input type="text" id="mainTitle" value="Setup, Manage & Optimize" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Campaign Text</label>
+                        <input type="text" id="campaignText" value="Ads Campaign" class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Profile Image</label>
+                        <input type="file" id="profileImage" accept="image/*" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="space-y-4">
+                    <h3 class="font-bold">Features</h3>
+                    <div id="features">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <input type="text" placeholder="Feature 1" value="Audience Research" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Feature 2" value="Pixel & Event Setup" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Feature 3" value="Sales Funnel Creation" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Feature 4" value="Boost Sales & Leads" class="w-full p-2 border rounded">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between">
+                    <button type="submit" class="bg-campaign-blue text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        Update Preview
+                    </button>
+                    <button type="button" id="downloadBtn" class="bg-campaign-red text-white px-6 py-2 rounded-lg hover:bg-red-700">
+                        Download Poster
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Preview Section -->
+        <div id="posterPreview" class="bg-campaign-yellow p-8 rounded-lg shadow-xl">
+            <!-- Poster Content (Same as previous design) -->
+            <div class="flex flex-col md:flex-row items-start justify-between gap-8">
+                <!-- Left Side Content -->
+                <div class="md:w-1/2 relative">
+                    <!-- Big Sales Badge -->
+                    <div class="absolute -top-4 -left-2 z-20">
+                        <div class="bg-white rounded-lg p-3 transform -rotate-12 shadow-lg border-2 border-black">
+                            <h2 id="previewBadge" class="text-campaign-red text-3xl font-black leading-tight">Big<br>Sales</h2>
+                        </div>
+                    </div>
+
+                    <!-- Main Content Box -->
+                    <div class="bg-campaign-blue text-white rounded-[2rem] p-8 mt-12 relative z-10">
+                        <h1 id="previewTitle" class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
+                            Setup,<br>
+                            Manage &<br>
+                            Optimize
+                        </h1>
+                        
+                        <div class="bg-campaign-red rounded-xl px-6 py-3 transform rotate-2 inline-block mb-4 shadow-lg">
+                            <span class="text-5xl md:text-6xl font-black text-white tracking-wide">FACEBOOK</span>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <span id="previewCampaign" class="text-3xl font-black bg-campaign-yellow text-campaign-blue px-6 py-2 rounded-xl inline-block transform -rotate-1 shadow-md">Ads Campaign</span>
+                        </div>
+                    </div>
+
+                    <!-- Feature Buttons -->
+                    <div id="previewFeatures" class="space-y-3 mt-6">
+                        <!-- Features will be dynamically populated -->
+                    </div>
+
+                    <!-- CTA and Social Icons -->
+                    <div class="mt-8">
+                        <a href="#" class="inline-block bg-campaign-red text-white text-2xl font-black py-4 px-12 rounded-full transform hover:scale-105 transition-transform duration-300 shadow-lg border-2 border-white">
+                            Order Now
+                        </a>
+                        
+                        <div class="mt-6 flex justify-start gap-6">
+                            <a href="#" class="text-3xl text-campaign-blue hover:text-campaign-red transition-colors">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="text-3xl text-campaign-blue hover:text-campaign-red transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="text-3xl text-campaign-blue hover:text-campaign-red transition-colors">
+                                <i class="fas fa-code"></i>
+                            </a>
+                            <a href="#" class="text-3xl text-campaign-blue hover:text-campaign-red transition-colors">
+                                <i class="fab fa-wordpress"></i>
+                            </a>
+                            <a href="#" class="text-3xl text-campaign-blue hover:text-campaign-red transition-colors">
+                                <i class="fas fa-shopping-bag"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Image -->
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-campaign-blue/10 rounded-3xl"></div>
+                        <img id="previewImage" src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg" alt="Marketing Professional" class="rounded-3xl shadow-2xl relative z-0 w-full h-auto object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('posterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            updatePreview();
+        });
+
+        document.getElementById('profileImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            html2canvas(document.getElementById('posterPreview')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'facebook-ads-campaign-poster.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+
+        function updatePreview() {
+            // Update badge text
+            document.getElementById('previewBadge').innerHTML = document.getElementById('badgeText').value.replace(/\n/g, '<br>');
+            
+            // Update main title
+            document.getElementById('previewTitle').innerHTML = document.getElementById('mainTitle').value.replace(/\n/g, '<br>');
+            
+            // Update campaign text
+            document.getElementById('previewCampaign').textContent = document.getElementById('campaignText').value;
+
+            // Update features
+            const featuresContainer = document.getElementById('previewFeatures');
+            featuresContainer.innerHTML = '';
+            
+            const featureInputs = document.querySelectorAll('#features input');
+            featureInputs.forEach((input, index) => {
+                if (input.value.trim()) {
+                    const icon = ['users', 'code', 'funnel-dollar', 'chart-line'][index];
+                    featuresContainer.innerHTML += `
+                        <div class="feature-button text-white rounded-full py-4 px-8 flex items-center gap-4">
+                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                                <i class="fas fa-${icon} text-campaign-blue"></i>
+                            </div>
+                            <span class="text-xl font-bold">${input.value}</span>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        // Initial preview update
+        updatePreview();
+    </script>
+</body>
+</html>
